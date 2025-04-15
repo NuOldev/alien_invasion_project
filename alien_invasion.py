@@ -1,13 +1,7 @@
 """
-* Refactoring
-Nota: A un método con un guión bajo antes del nombre de este, se le
-llama (helper method), estos funcionan dentro de la clase pero no están 
-destinados para el uso fuera de la función.
-01 - Creando helper method _check_events().
-02 - Creando helper method _update_screen().
-03 - Moviendo el codigo correspondiente a _check_events().
-04 - Moviendo el codigo correspondiente a _update_screen().
-05 - Simplificando el método principal run_game().
+Responding to a keypress and release keypress
+Allowing Continous Movement
+Moving both Left and Right
 """
 
 import sys
@@ -36,23 +30,31 @@ class AlienInvasion:
         """Iniciar el loop principal del juego."""
 
         while True:
-            self._check_events()  # 05
-            self._update_screen()  # 05
-            self.clock.tick(60)  # 05
+            self._check_events()  # helper method, internal call
+            self.ship.update()  # external call, Ship class method
+            self._update_screen()
+            self.clock.tick(60)
 
-    def _update_screen(self):  # 02
+    def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         # Redraw the screen during each pass through the loop.
-        self.screen.fill(self.settings.bg_color)  # 04
-        self.ship.blitme()  # 04
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
         # Make the most recently drawn screen visible.
-        pygame.display.flip()  # 04
+        pygame.display.flip()
 
-    def _check_events(self):  # 01
+    def _check_events(self):
         """Respond to keypresses and mouse events."""
-        for event in pygame.event.get():  # 03
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            # Keypress event
+            elif event.type == pygame.KEYDOWN:  # si se presiona una tecla...
+                if event.key == pygame.K_RIGHT:  # si es a la derecha...
+                    self.ship.moving_right = True  # ...
+            elif event.type == pygame.KEYUP:  # si se suelta la tecla
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False  # ...
 
 
 if __name__ == '__main__':
