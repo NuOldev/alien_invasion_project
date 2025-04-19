@@ -1,8 +1,6 @@
 """
-Responding to a keypress and release keypress
-Allowing Continous Movement
-Moving Both Left and Right
-Refactoring _check_events()
+Pressing Q to Quit
+Running the Game in Fullscreen Mode
 """
 
 import sys
@@ -20,8 +18,10 @@ class AlienInvasion:
 
         self.clock = pygame.time.Clock()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height))
+        # If want a Fullscreen
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
 
@@ -41,6 +41,7 @@ class AlienInvasion:
         pygame.display.flip()
 
     # Refactoring
+
     def _check_events(self):
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
@@ -58,6 +59,8 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            sys.exit()
 
     # Flags to False
     def check_keyup_events(self, event):
