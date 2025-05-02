@@ -10,7 +10,8 @@ class Ship:
 
     def __init__(self, ai_game):
         """Initialize the ship and set its starting position."""
-        self.screen = ai_game.screen  # Access all "self's" from AI through Ship(self)
+        self.screen = ai_game.screen  # Obtenemos acceso a la pantalla y sus configuraciones en la clase principal.
+        # Obtenemos acceso al modulo de Ajustes desde la clase principal.
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
         self.image = pygame.image.load('images/ship.bmp')
